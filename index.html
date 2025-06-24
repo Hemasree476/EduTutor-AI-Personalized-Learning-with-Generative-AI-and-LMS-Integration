@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTutor AI - Intelligent Learning Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --surface-color: #ffffff;
+            --background-color: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar {
+            background: var(--surface-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .main-panel {
+            background: var(--surface-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            background: var(--surface-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-card.active {
+            border: 2px solid var(--primary-color);
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(59, 130, 246, 0.05));
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Diagnostic Testing */
+        .test-interface {
+            background: var(--background-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-card {
+            background: var(--surface-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .answer-option {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .answer-option:hover {
+            background: var(--background-color);
+            border-color: var(--primary-color);
+        }
+
+        .answer-option.selected {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .answer-option input[type="radio"] {
+            margin-right: 0.75rem;
+        }
+
+        /* Dashboard Analytics */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .chart-container {
+            background: var(--background-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Student List */
+        .student-list {
+            background: var(--background-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .student-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--surface-color);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--success-color), #34d399);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .progress-bar {
+            width: 100px;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-color), #34d399);
+            transition: width 0.3s;
+        }
+
+        /* Google Classroom Integration */
+        .sync-status {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success-color);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .sync-status.syncing {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--warning-color);
+        }
+
+        .sync-icon {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            color: var(--success-color);
+        }
+
+        .sync-icon.syncing {
+            color: var(--warning-color);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .classroom-data {
+            background: var(--background-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .data-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .data-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--surface-color);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: var(--background-color);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 0.5rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            transform: translateX(100%);
+            transition: transform 0.3s;
+            z-index: 1001;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: var(--danger-color);
+        }
+
+        .toast.warning {
+            background: var(--warning-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                EduTutor AI
+            </div>
+            <ul class="nav-links">
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#analytics">Analytics</a></li>
+                <li><a href="#students">Students</a></li>
+                <li><a href="#settings">Settings</a></li>
+            </ul>
+            <div class="user-profile">
+                <div class="profile-avatar">JD</div>
+                <span>John Doe</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content container">
+        <div class="dashboard-grid">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Features</h3>
+                
+                <div class="feature-card active" data-section="diagnostic">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="feature-title">AI-Powered Diagnostic Testing</div>
+                    <div class="feature-description">
+                        Uses IBM Granite models to deliver adaptive tests that evaluate student proficiency and adjust difficulty dynamically.
+                    </div>
+                </div>
+
+                <div class="feature-card" data-section="dashboard">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="feature-title">Real-Time Analytics Dashboard</div>
+                    <div class="feature-description">
+                        Comprehensive performance analytics with Pinecone vector search to track student progress and identify learning gaps.
+                    </div>
+                </div>
+
+                <div class="feature-card" data-section="classroom">
+                    <div class="feature-icon">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <div class="feature-title">Google Classroom Integration</div>
+                    <div class="feature-description">
+                        Seamless sync with Google Classroom for automated roster management and assignment alignment.
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Panel -->
+            <div class="main-panel">
+                <!-- Diagnostic Testing Section -->
+                <div class="content-section active" id="diagnostic">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="section-title">AI-Powered Diagnostic & Adaptive Testing</div>
+                    </div>
+
+                    <div class="test-interface">
+                        <div class="question-card">
+                            <div class="question-text">
+                                Question 1 of 10: What is the primary function of mitochondria in a cell?
+                            </div>
+                            <div class="answer-options">
+                                <label class="answer-option">
+                                    <input type="radio" name="q1" value="a">
+                                    <span>Protein synthesis</span>
+                                </label>
+                                <label class="answer-option">
+                                    <input type="radio" name="q1" value="b">
+                                    <span>Energy production (ATP synthesis)</span>
+                                </label>
+                                <label class="answer-option">
+                                    <input type="radio" name="q1" value="c">
+                                    <span>DNA replication</span>
+                                </label>
+                                <label class="answer-option">
+                                    <input type="radio" name="q1" value="d">
+                                    <span>Waste elimination</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: between; align-items: center; margin-top: 1rem;">
+                            <div style="flex: 1;">
+                                <div style="background: var(--border-color); height: 8px; border-radius: 4px;">
+                                    <div style="background: linear-gradient(90deg, var(--primary-color), var(--accent-color)); height: 100%; width: 10%; border-radius: 4px; transition: width 0.3s;"></div>
+                                </div>
+                                <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">Progress: 1 of 10 questions</small>
+                            </div>
+                            <button class="btn btn-primary" style="margin-left: 1rem;" onclick="nextQuestion()">
+                                Next Question <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(37, 99, 235, 0.1); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+                        <h4 style="margin-bottom: 0.5rem; color: var(--primary-color);">
+                            <i class="fas fa-brain"></i> AI Adaptation in Progress
+                        </h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            Our IBM Granite model is analyzing your responses to adjust question difficulty and focus areas in real-time.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Analytics Dashboard Section -->
+                <div class="content-section" id="dashboard">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="section-title">Real-Time Performance Analytics</div>
+                    </div>
+
+                    <div class="analytics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">87%</div>
+                            <div class="metric-label">Average Score</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">24</div>
+                            <div class="metric-label">Active Students</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">156</div>
+                            <div class="metric-label">Quizzes Completed</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">12</div>
+                            <div class="metric-label">Topics Covered</div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <h4 style="margin-bottom: 1rem;">Student Performance Trends</h4>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-line" style="margin-right: 0.5rem;"></i>
+                            Interactive Performance Chart (Powered by Pinecone Vector Search)
+                        </div>
+                    </div>
+
+                    <div class="student-list">
+                        <h4 style="margin-bottom: 1rem;">Recent Student Activity</h4>
+                        <div class="student-item">
+                            <div class="student-info">
+                                <div class="student-avatar">AM</div>
+                                <div>
+                                    <div style="font-weight: 500;">Alice Martinez</div>
+                                    <small style="color: var(--text-secondary);">Biology Quiz - 2 mins ago</small>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600; color: var(--success-color);">94%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 94%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="student-item">
+                            <div class="student-info">
+                                <div class="student-avatar">BS</div>
+                                <div>
+                                    <div style="font-weight: 500;">Ben Smith</div>
+                                    <small style="color: var(--text-secondary);">Chemistry Quiz - 5 mins ago</small>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600; color: var(--warning-color);">72%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 72%; background: linear-gradient(90deg, var(--warning-color), #fbbf24);"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="student-item">
+                            <div class="student-info">
+                                <div class="student-avatar">CJ</div>
+                                <div>
+                                    <div style="font-weight: 500;">Carol Johnson</div>
+                                    <small style="color: var(--text-secondary);">Physics Quiz - 12 mins ago</small>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600; color: var(--success-color);">89%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 89%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Classroom Integration Section -->
+                <div class="content-section" id="classroom">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="section-title">Google Classroom Integration</div>
+                    </div>
+
+                    <div class="sync-status" id="syncStatus">
+                        <i class="fas fa-check-circle sync-icon"></i>
+                        <div>
+                            <div style="font-weight: 500;">Sync Status: Connected</div>
+                            <small style="color: var(--text-secondary);">Last synced: 2 minutes ago</small>
+                        </div>
+                        <button class="btn btn-secondary" onclick="syncClassroom()">
+                            <i class="fas fa-sync-alt"></i> Sync Now
+                        </button>
+                    </div>
+
+                    <div class="classroom-data">
+                        <div class="data-section">
+                            <div class="data-title">
+                                <i class="fas fa-users" style="margin-right: 0.5rem;"></i>
+                                Class Rosters
+                            </div>
+                            <div class="data-item">
+                                <span>AP Biology - Period 3</span>
+                                <span style="background: rgba(37, 99, 235, 0.1); color: var(--primary-color); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">28 students</span>
+                            </div>
+                            <div class="data-item">
+                                <span>Chemistry Honors - Period 5</span>
+                                <span style="background: rgba(37, 99, 235, 0.1); color: var(--primary-color); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">24 students</span>
+                            </div>
+                            <div class="data-item">
+                                <span>General Biology - Period 7</span>
+                                <span style="background: rgba(37, 99, 235, 0.1); color: var(--primary-color); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">32 students</span>
+                            </div>
+                        </div>
+
+                        <div class="data-section">
+                            <div class="data-title">
+                                <i class="fas fa-file-alt" style="margin-right: 0.5rem;"></i>
+                                Recent Assignments
+                            </div>
+                            <div class="data-item">
+                                <div>
+                                    <div style="font-weight: 500;">Cell Structure Quiz</div>
+                                    <small style="color: var(--text-secondary);">Due: Tomorrow</small>
+                                </div>
+                                <span style="background: rgba(16, 185, 129, 0.1); color: var(--success-color); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">Synced</span>
+                            </div>
+                            <div class="data-item">
+                                <div>
+                                    <div style="font-weight: 500;">Chemical Bonding Test</div>
+                                    <small style="color: var(--text-secondary);">Due: Friday</small>
+                                </div>
+                                <span style="background: rgba(16, 185, 129, 0.1); color: var(--success-color); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">Synced</span>
+                            </div>
+                            <div class="data-item">
+                                <div>
+                                    <div style="font-weight: 500;">Genetics Study Guide</div>
+                                    <small style="color: var(--text-secondary);">Due: Next Week</small>
+                                </div>
+                                <span style="background: rgba(245, 158, 11, 0.1); color: var(--warning-color); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">Pending</span>
+                            </div>
+                        </div>
+
+                        <div class="data-section">
+                            <div class="data-title">
+                                <i class="fas fa-book" style="margin-right: 0.5rem;"></i>
+                                Course Materials
+                            </div>
+                            <div class="data-item">
+                                <span>Biology Textbook - Chapter 7</span>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
+                                    <i class="fas fa-download"></i> Import
+                                </button>
+                            </div>
+                            <div class="data-item">
+                                <span>Chemistry Lab Manual</span>
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
+                                    <i class="fas fa-download"></i> Import
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Global state
+        let currentQuestion = 1;
+        const totalQuestions = 10;
+
+        // Feature card navigation
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Remove active class from all cards and sections
+                document.querySelectorAll('.feature-card').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked card
+                card.classList.add('active');
+                
+                // Show corresponding section
+                const sectionId = card.dataset.section;
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Answer option selection
+        document.querySelectorAll('.answer-option').forEach(option
